@@ -12,8 +12,9 @@ function start(){
 	document.getElementById("code-form").style.display = "";
 	charPerStroke=parseInt(document.getElementById("keystroke-chars").value);
 	var fileToLoad = document.getElementById("select-text-input").value;
-	if(fileToLoad == "CUSTOM"){
-		loadCustomFile();
+	var localFilesToLoad = document.getElementById("file-upload").files;
+	if (localFilesToLoad.length > 0){
+		loadCustomFile(localFilesToLoad[0]);
 	}
 	else{
 		loadFile(fileToLoad);
@@ -26,7 +27,9 @@ function loadFile(fileToLoad){
 	text = req.responseText;
 	ready();
 }
-function loadCustomFile(){
+function loadCustomFile(file){
+	text = file.getAsText("");
+	ready();
 }
 function ready(){
 	isTyping=true;
@@ -46,4 +49,4 @@ function keyHandler(e){
 	return false;
 }
 window.onload=init;
-window.onkeyup=keyHandler;
+window.onkeydown=keyHandler;
